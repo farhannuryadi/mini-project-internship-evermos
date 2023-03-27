@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"mini-project-internship/models/entity"
-
 )
 
 func RunMigration() {
@@ -19,6 +18,8 @@ func RunMigration() {
 		&entity.Trx{},
 		&entity.DetailTrx{},
 		&entity.LogProduk{},
+		&entity.Provinsi{},
+		&entity.Kota{},
 	)
 
 	if err != nil {

@@ -16,6 +16,9 @@ func RoutesInit(r *fiber.App) {
 	category := v1.Group("/category")
 	// produk := v1.Group("/produk")
 	// trx := v1.Group("/trx")
+	test := v1.Group("/test")
+
+	test.Get("/", controllers.AmbilDataProvinsi)
 	
 
 	auth.Post("/login", controllers.AuthLogin)
