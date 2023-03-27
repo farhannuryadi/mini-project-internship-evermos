@@ -9,7 +9,6 @@ import (
 	"mini-project-internship/models/request"
 	"mini-project-internship/models/response"
 	"mini-project-internship/services"
-
 )
 
 var userService services.UserService = *services.NewUserService()
@@ -17,11 +16,11 @@ var userService services.UserService = *services.NewUserService()
 func UserCreate(ctx *fiber.Ctx) error {
 	var userReq request.UserReq
 	if err := ctx.BodyParser(&userReq); err != nil {
-		return helper.ErrorHelper(ctx, fiber.StatusBadRequest, err.Error())
+		return helper.ErrorHelper(ctx, fiber.StatusBadRequest, err)
 	}
 
 	if err := userService.Create(userReq); err != nil {
-		return helper.ErrorHelper(ctx, fiber.StatusInternalServerError, err.Error())
+		return helper.ErrorHelper(ctx, fiber.StatusInternalServerError, err)
 	}
 
 	return helper.SuccessHelper(ctx, fiber.StatusCreated, nil)
@@ -32,7 +31,7 @@ func UserGetById(ctx *fiber.Ctx) error {
 	user, err := userService.GetById(userId)
 	var user1 entity.User = user
 	if err != nil {
-		return helper.ErrorHelper(ctx, fiber.StatusNotFound, err.Error())
+		return helper.ErrorHelper(ctx, fiber.StatusNotFound, err)
 	}
 
 	userRes := mapper.UserToUserRes(user1)
@@ -45,12 +44,12 @@ func UserUpdate(ctx *fiber.Ctx) error {
 	var userReq request.UserUpdateReq
 
 	if err := ctx.BodyParser(&userReq); err != nil {
-		return helper.ErrorHelper(ctx, fiber.StatusBadRequest, err.Error())
+		return helper.ErrorHelper(ctx, fiber.StatusBadRequest, err)
 	}
 
 	user, errUpdate := userService.Update(userId, userReq)
 	if errUpdate != nil {
-		return helper.ErrorHelper(ctx, fiber.StatusInternalServerError, errUpdate.Error())
+		return helper.ErrorHelper(ctx, fiber.StatusInternalServerError, errUpdate)
 	}
 
 	userRes := mapper.UserToUserRes(user)
@@ -62,7 +61,7 @@ func UserGetAll(ctx *fiber.Ctx) error {
 	var userRes []response.UserRes
 	users, err := userService.GetAll()
 	if err != nil {
-		return helper.ErrorHelper(ctx, fiber.StatusInternalServerError, err.Error())
+		return helper.ErrorHelper(ctx, fiber.StatusInternalServerError, err)
 	}
 
 	for _, user := range users{
@@ -77,7 +76,7 @@ func UserDelete(ctx *fiber.Ctx) error {
 
 	ket, err := userService.Delete(userId)
 	if err != nil {
-		return helper.ErrorHelper(ctx, fiber.StatusInternalServerError, err.Error())
+		return helper.ErrorHelper(ctx, fiber.StatusInternalServerError, err)
 	}
 
 	return helper.SuccessHelper(ctx, fiber.StatusAccepted, ket)

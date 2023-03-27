@@ -34,7 +34,7 @@ func (r *UserRepo) Update(userId string, userUpdate request.UserUpdateReq) (enti
 
 	errUpdate := database.DB.Debug().Save(&user).Error
 	if errUpdate != nil {
-		return user, err
+		return user, errUpdate
 	}
 	return user, nil
 }
