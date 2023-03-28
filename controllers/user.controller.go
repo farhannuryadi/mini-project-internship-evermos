@@ -9,6 +9,7 @@ import (
 	"mini-project-internship/models/request"
 	"mini-project-internship/models/response"
 	"mini-project-internship/services"
+
 )
 
 var userService services.UserService = *services.NewUserService()
@@ -19,7 +20,8 @@ func UserCreate(ctx *fiber.Ctx) error {
 		return helper.ErrorHelper(ctx, fiber.StatusBadRequest, err)
 	}
 
-	if err := userService.Create(userReq); err != nil {
+	_ ,err := userService.Create(userReq);
+	if err != nil {
 		return helper.ErrorHelper(ctx, fiber.StatusInternalServerError, err)
 	}
 

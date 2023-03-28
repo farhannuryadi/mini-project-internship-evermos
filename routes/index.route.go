@@ -5,6 +5,7 @@ import (
 
 	"mini-project-internship/controllers"
 	"mini-project-internship/middleware"
+
 )
 
 func RoutesInit(r *fiber.App) {
@@ -22,6 +23,7 @@ func RoutesInit(r *fiber.App) {
 	
 
 	auth.Post("/login", controllers.AuthLogin)
+	auth.Post("/register", controllers.AuthRegis)
 
 	user.Post("/", controllers.UserCreate)
 	user.Get("/:id", controllers.UserGetById)

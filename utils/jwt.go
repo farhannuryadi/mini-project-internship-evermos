@@ -9,6 +9,7 @@ import (
 	"github.com/joho/godotenv"
 
 	"mini-project-internship/models/entity"
+
 )
 
 func GenerateTokenJwt(claims *jwt.MapClaims) (string, error) {
@@ -31,6 +32,7 @@ func GenerateClaims(user entity.User) jwt.MapClaims {
 	claims["nama"] = user.Nama
 	claims["email"] = user.Email
 	claims["is_admin"] = user.IsAdmin
+	claims["no_telp"] = user.NoTelp
 	claims["exp"] = time.Now().Add(time.Hour * 10).Unix()
 	return claims
 }

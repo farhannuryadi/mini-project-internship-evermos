@@ -1,11 +1,11 @@
 package services
 
 import (
+	"mini-project-internship/helper/mapper"
 	"mini-project-internship/models/entity"
 	"mini-project-internship/models/request"
 	"mini-project-internship/repositories"
 	"mini-project-internship/utils"
-
 )
 
 type UserService struct {
@@ -16,14 +16,16 @@ func NewUserService() *UserService {
 	return &UserService{&repositories.UserRepo{}}
 }
 
-func (s *UserService) Create(userReq request.UserReq) error {
+func (s *UserService) Create(userReq request.UserReq) (entity.User, error) {
+	var user entity.User
 	hashedPassword, err := utils.HashingPassword(userReq.KataSandi)
 	if err != nil {
-		return err
+		return user, err
 	}
 
 	userReq.KataSandi = hashedPassword
-	return s.repo.Create(userReq)
+	user = mapper.UserReqToUser(userReq)
+	return s.repo.Create(user)
 }
 
 func (s *UserService) GetById(userId string) (entity.User, error) {
@@ -44,4 +46,8 @@ func (s *UserService) Delete(userId string) (bool, error) {
 
 func (s *UserService) GetByEmail(email string) (entity.User, error) {
 	return s.repo.FindByEmail(email)
+}
+
+func (s *UserService) GetByNoTelp(noTelp string) (entity.User, error) {
+	return s.repo.FindByNoTelp(noTelp)
 }

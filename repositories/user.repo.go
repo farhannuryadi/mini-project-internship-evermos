@@ -5,14 +5,18 @@ import (
 	"mini-project-internship/helper/mapper"
 	"mini-project-internship/models/entity"
 	"mini-project-internship/models/request"
+
 )
 
 type UserRepo struct {
 }
 
-func (r *UserRepo) Create(userReq request.UserReq) error {
-	var user entity.User = mapper.UserReqToUser(userReq)
-	return database.DB.Debug().Create(&user).Error
+func (r *UserRepo) Create(user entity.User) (entity.User, error) {
+	err := database.DB.Debug().Create(&user).Error
+	if err != nil {
+		return user, err
+	}
+	return user, nil
 }
 
 func (r *UserRepo) FindById(userId string) (entity.User, error) {
@@ -64,6 +68,14 @@ func (r *UserRepo) Delete(userId string) (bool, error) {
 func (r *UserRepo) FindByEmail(email string) (entity.User, error) {
 	var user entity.User
 	if err := database.DB.Debug().First(&user, "email = ?", email).Error; err != nil {
+		return user, err
+	}
+	return user, nil
+}
+
+func (r *UserRepo) FindByNoTelp(noTelp string) (entity.User, error) {
+	var user entity.User
+	if err := database.DB.Debug().First(&user, "no_telp = ?", noTelp).Error; err != nil {
 		return user, err
 	}
 	return user, nil
