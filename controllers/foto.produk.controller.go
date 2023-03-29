@@ -1,11 +1,7 @@
 package controllers
 
-import "mini-project-internship/services"
+// var fotoProdukService = *services.NewFotoProdukService()
 
-type FotoProdukController struct {
-	service *services.FotoProdukServcie
-}
+// func FotoProdukCreate(ctx *fiber.Ctx) error {
 
-func NewFotoProdukController(service *services.FotoProdukServcie) *FotoProdukController {
-	return &FotoProdukController{service}
-}
+// }

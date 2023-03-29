@@ -5,7 +5,7 @@ import (
 
 	"mini-project-internship/controllers"
 	"mini-project-internship/middleware"
-
+	"mini-project-internship/utils"
 )
 
 func RoutesInit(r *fiber.App) {
@@ -14,30 +14,44 @@ func RoutesInit(r *fiber.App) {
 	auth := v1.Group("/auth")
 	user := v1.Group("/user")
 	toko := v1.Group("/toko")
+	alamat := v1.Group("/user/alamat")
 	category := v1.Group("/category")
-	// produk := v1.Group("/produk")
+	produk := v1.Group("/product")
 	// trx := v1.Group("/trx")
 	test := v1.Group("/test")
 
 	test.Get("/", controllers.AmbilDataProvinsi)
-	
+	test.Post("/", controllers.TestProdukFoto)
+	test.Post("/multiple", utils.HandleMultipleFile, controllers.TestUploadMultiple)
+
+	produk.Post("/", utils.HandleMultipleFile, middleware.Auth, controllers.ProdukCreate)
+	produk.Get("/", middleware.Auth, controllers.ProdukGetAllPage)
 
 	auth.Post("/login", controllers.AuthLogin)
 	auth.Post("/register", controllers.AuthRegis)
 
 	user.Post("/", controllers.UserCreate)
-	user.Get("/:id", controllers.UserGetById)
-	user.Put("/:id", controllers.UserUpdate)
-	user.Get("/", middleware.AuthAdmin, controllers.UserGetAll)
-	user.Delete("/:id", controllers.UserDelete) 
+	user.Put("/", middleware.Auth, controllers.UserUpdate)
+	user.Delete("/:id", controllers.UserDelete)
+	user.Get("/list", middleware.AuthAdmin, controllers.UserGetAll)
+	user.Get("/:id_user", controllers.UserGetById)
+	user.Get("/", middleware.Auth, controllers.UserMyProfile)
+
+	alamat.Post("/", middleware.Auth, controllers.AlamatCreate)
+	alamat.Get("/:id", middleware.Auth, controllers.AlamatGetById)
+	alamat.Get("/", middleware.Auth, controllers.AlamatGetByUserId)
+	alamat.Put("/:id", middleware.Auth, controllers.AlamatUpdate)
+	alamat.Delete("/:id", middleware.Auth, controllers.AlamatDelete)
 
 	toko.Post("/", controllers.TokoCreate)
-	toko.Get("/:id", controllers.TokoGetById)
-	toko.Put("/:id", controllers.TokoUpdate)
-	toko.Get("/", controllers.TokoGetAll)
+	toko.Put("/:id", middleware.Auth, controllers.TokoUpdate)
+	toko.Get("/", middleware.Auth, controllers.TokoGetAllPage)
 	toko.Delete("/:id", controllers.TokoDelete)
+	toko.Get("/my", middleware.Auth, controllers.TokoGetMy)
+	toko.Get("/:id_toko", middleware.Auth, controllers.TokoGetById)
+	// toko.Get("/", controllers.TokoGetAll)
 
-	category.Post("/", middleware.AuthAdmin ,controllers.CategoryCreate)
+	category.Post("/", middleware.AuthAdmin, controllers.CategoryCreate)
 	category.Get("/:id", middleware.AuthAdmin, controllers.CategoryGetById)
 	category.Put("/:id", middleware.AuthAdmin, controllers.CategoryUpdate)
 	category.Get("/", middleware.AuthAdmin, controllers.CategoryGetAll)

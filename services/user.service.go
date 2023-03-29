@@ -6,6 +6,7 @@ import (
 	"mini-project-internship/models/request"
 	"mini-project-internship/repositories"
 	"mini-project-internship/utils"
+
 )
 
 type UserService struct {
@@ -33,6 +34,13 @@ func (s *UserService) GetById(userId string) (entity.User, error) {
 }
 
 func (s *UserService) Update(userId string, userUpdate request.UserUpdateReq) (entity.User, error) {
+	var user entity.User
+	hashedPassword, err := utils.HashingPassword(userUpdate.KataSandi)
+	if err != nil {
+		return user, err
+	}
+
+	userUpdate.KataSandi = hashedPassword
 	return s.repo.Update(userId, userUpdate)
 }
 

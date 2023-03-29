@@ -17,7 +17,7 @@ func CategoryCreate(ctx *fiber.Ctx) error {
 	if err := ctx.BodyParser(&categoryReq); err != nil {
 		return helper.ErrorHelper(ctx, fiber.StatusBadRequest, err)
 	}
-	
+
 	if err := categoryServcie.Create(categoryReq); err != nil {
 		return helper.ErrorHelper(ctx, fiber.StatusInternalServerError, err)
 	}
@@ -55,7 +55,7 @@ func CategoryGetAll(ctx *fiber.Ctx) error {
 	if err != nil {
 		return helper.ErrorHelper(ctx, fiber.StatusInternalServerError, err)
 	}
-	
+
 	return helper.SuccessHelper(ctx, fiber.StatusOK, category)
 }
 
@@ -66,6 +66,6 @@ func CategoryDelete(ctx *fiber.Ctx) error {
 	if err != nil {
 		return helper.ErrorHelper(ctx, fiber.StatusInternalServerError, err)
 	}
-	
+
 	return helper.SuccessHelper(ctx, fiber.StatusOK, ket)
 }

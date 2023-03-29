@@ -22,4 +22,5 @@ type UserUpdateReq struct {
 	Email      *string `json:"email"`
 	IdProvinsi *string `json:"id_provinsi"`
 	IdKota     *string `json:"id_kota"`
+	KataSandi  string  `json:"kata_sandi"`
 }

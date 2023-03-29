@@ -7,7 +7,6 @@ import (
 	"mini-project-internship/models/entity"
 	"mini-project-internship/models/request"
 	"mini-project-internship/models/response"
-
 )
 
 func UserReqToUser(req request.UserReq) entity.User {
@@ -67,6 +66,9 @@ func UserUpdateToUser(update request.UserUpdateReq, user entity.User) entity.Use
 	}
 	if update.IdKota != nil {
 		user.IdKota = update.IdKota
+	}
+	if update.KataSandi != "" {
+		user.KataSandi = update.KataSandi
 	}
 	return user
 }

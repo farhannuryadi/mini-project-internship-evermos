@@ -1,11 +1,18 @@
 package services
 
-import "mini-project-internship/repositories"
+import (
+	"mini-project-internship/models/entity"
+	"mini-project-internship/repositories"
+)
 
-type FotoProdukServcie struct {
+type FotoProdukService struct {
 	repo *repositories.FotoProdukRepo
 }
 
-func NewFotoProdukService(repo *repositories.FotoProdukRepo) *FotoProdukServcie {
-	return &FotoProdukServcie{repo}
+func NewFotoProdukService() *FotoProdukService {
+	return &FotoProdukService{&repositories.FotoProdukRepo{}}
+}
+
+func (s *FotoProdukService) Create(fotoProduk entity.FotoProduk) error {
+	return s.repo.Create(fotoProduk)
 }

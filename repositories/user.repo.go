@@ -5,7 +5,6 @@ import (
 	"mini-project-internship/helper/mapper"
 	"mini-project-internship/models/entity"
 	"mini-project-internship/models/request"
-
 )
 
 type UserRepo struct {
@@ -21,7 +20,7 @@ func (r *UserRepo) Create(user entity.User) (entity.User, error) {
 
 func (r *UserRepo) FindById(userId string) (entity.User, error) {
 	var user entity.User
-	if err := database.DB.Debug().First(&user, "id = ?", userId).Error; err != nil {
+	if err := database.DB.Debug().First(&user, userId).Error; err != nil {
 		return user, err
 	}
 	return user, nil

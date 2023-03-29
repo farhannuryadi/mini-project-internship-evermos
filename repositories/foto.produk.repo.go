@@ -1,11 +1,17 @@
 package repositories
 
-import "gorm.io/gorm"
+import (
+	"mini-project-internship/database"
+	"mini-project-internship/models/entity"
+)
 
 type FotoProdukRepo struct {
-	db *gorm.DB
 }
 
-func NewFotoProdukRepo(db *gorm.DB) *FotoProdukRepo {
-	return &FotoProdukRepo{db}
+func (r *FotoProdukRepo) Create(fotoProduk entity.FotoProduk) error {
+	err := database.DB.Debug().Create(&fotoProduk).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }

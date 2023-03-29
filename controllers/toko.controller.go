@@ -1,6 +1,10 @@
 package controllers
 
 import (
+	"fmt"
+	"strconv"
+	// "log"
+
 	"github.com/gofiber/fiber/v2"
 
 	"mini-project-internship/helper"
@@ -25,8 +29,8 @@ func TokoCreate(ctx *fiber.Ctx) error {
 }
 
 func TokoGetById(ctx *fiber.Ctx) error {
-	var tokoId = ctx.Params("id")
-	
+	var tokoId = ctx.Params("id_toko")
+
 	toko, err := tokoService.GetById(tokoId)
 	if err != nil {
 		return helper.ErrorHelper(ctx, fiber.StatusNotFound, err)
@@ -37,18 +41,18 @@ func TokoGetById(ctx *fiber.Ctx) error {
 
 func TokoUpdate(ctx *fiber.Ctx) error {
 	var tokoId = ctx.Params("id")
-	var tokoReq request.TokoUpdateReq
+	var tokoUpdate entity.Toko
 
-	if err := ctx.BodyParser(&tokoReq); err != nil {
+	if err := ctx.BodyParser(&tokoUpdate); err != nil {
 		return helper.ErrorHelper(ctx, fiber.StatusBadRequest, err)
 	}
 
-	toko, errUpdate := tokoService.Update(tokoId, tokoReq)
+	_, errUpdate := tokoService.Update(tokoId, tokoUpdate)
 	if errUpdate != nil {
 		return helper.ErrorHelper(ctx, fiber.StatusInternalServerError, errUpdate)
 	}
 
-	return helper.SuccessHelper(ctx, fiber.StatusAccepted, toko)
+	return helper.SuccessHelper(ctx, fiber.StatusAccepted, "Update toko succeed")
 }
 
 func TokoGetAll(ctx *fiber.Ctx) error {
@@ -70,4 +74,47 @@ func TokoDelete(ctx *fiber.Ctx) error {
 	}
 
 	return helper.SuccessHelper(ctx, fiber.StatusOK, ket)
+}
+
+func TokoGetMy(ctx *fiber.Ctx) error {
+	userInfo, isOk := helper.ClaimsUserInfo(ctx)
+	if isOk != nil {
+		return helper.ErrorHelper(ctx, fiber.StatusUnauthorized, isOk)
+	}
+
+	userId, _ := userInfo["id"].(float64)
+	id := fmt.Sprintf("%.0f", userId)
+
+	toko, err := tokoService.GetByUserId(id)
+	if err != nil {
+		return helper.ErrorHelper(ctx, fiber.StatusNotFound, err)
+	}
+
+	return helper.SuccessHelper(ctx, fiber.StatusOK, toko)
+}
+
+func TokoGetAllPage(ctx *fiber.Ctx) error {
+	name := ctx.Query("nama")
+	page, perPage := getPagination(ctx)
+
+	result, err := tokoService.GetAllPage(page, perPage, name)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Internal Server Error",
+			"error":   err.Error(),
+		})
+	}
+	return ctx.JSON(result)
+}
+
+func getPagination(ctx *fiber.Ctx) (page, perPage uint64) {
+	page = 1
+	perPage = 10
+	if queryPage := ctx.Query("page"); queryPage != "" {
+		page, _ = strconv.ParseUint(queryPage, 10, 64)
+	}
+	if queryPerPage := ctx.Query("limit"); queryPerPage != "" {
+		perPage, _ = strconv.ParseUint(queryPerPage, 10, 64)
+	}
+	return page, perPage
 }

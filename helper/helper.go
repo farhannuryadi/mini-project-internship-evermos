@@ -3,6 +3,7 @@ package helper
 import (
 	"fmt"
 
+	"github.com/dgrijalva/jwt-go/v4"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -22,11 +23,19 @@ func response(status bool, message string, err error, data interface{}) fiber.Ma
 	var errRes interface{}
 	if err != nil {
 		errRes = err.Error()
-	} 
-	return fiber.Map{
-		"status": status,
-		"message": message,
-		"error": errRes,
-		"data": data,
 	}
+	return fiber.Map{
+		"status":  status,
+		"message": message,
+		"error":   errRes,
+		"data":    data,
+	}
+}
+
+func ClaimsUserInfo(ctx *fiber.Ctx) (jwt.MapClaims, error) {
+	userInfo, ok := ctx.Locals("userInfo").(jwt.MapClaims)
+	if !ok {
+		return nil, fmt.Errorf("Error Claims User Info")
+	}
+	return userInfo, nil
 }

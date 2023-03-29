@@ -22,7 +22,7 @@ var kotaService services.KotaService = services.KotaService{}
 func AuthLogin(ctx *fiber.Ctx) error {
 	loginReq := new(request.LoginReq)
 	if err := ctx.BodyParser(&loginReq); err != nil {
-		return err
+		return helper.ErrorHelper(ctx, fiber.StatusBadRequest, err)
 	}
 
 	validate := validator.New()
@@ -86,9 +86,6 @@ func AuthRegis(ctx *fiber.Ctx) error {
 		return helper.ErrorHelper(ctx, fiber.StatusBadRequest, errGet)
 	}
 
-	log.Println("ini uint")
-	log.Println(user.ID)
-
 	var userId string = strconv.Itoa(int(user.ID))
 	log.Println("ini string")
 	log.Println(userId)
@@ -97,7 +94,6 @@ func AuthRegis(ctx *fiber.Ctx) error {
 		UserID:   strconv.Itoa(int(user.ID)),
 	}
 
-	log.Println(toko)
 	errToko := tokoService.Create(toko)
 	if errToko != nil {
 		return helper.ErrorHelper(ctx, fiber.StatusBadRequest, errToko)

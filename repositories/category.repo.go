@@ -29,7 +29,7 @@ func (r *CategoryRepo) Update(categoryId string, categoryReq request.CategoryReq
 	if err != nil {
 		return category, err
 	}
-	
+
 	category = mapper.CategoryUpdateToCategory(categoryReq, category)
 
 	errUpdate := database.DB.Debug().Save(&category).Error

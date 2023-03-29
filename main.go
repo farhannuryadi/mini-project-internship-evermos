@@ -10,7 +10,7 @@ import (
 	"mini-project-internship/database"
 	"mini-project-internship/middleware"
 	"mini-project-internship/routes"
-	"mini-project-internship/utils"
+	// "mini-project-internship/utils"
 )
 
 func main() {
@@ -20,7 +20,7 @@ func main() {
 	database.DatabaseInit()
 	database.RunMigration()
 
-	utils.FetchData()
+	// utils.FetchData()
 
 	app := fiber.New()
 	app.Use(cors.New(middleware.CorsConfig()))
