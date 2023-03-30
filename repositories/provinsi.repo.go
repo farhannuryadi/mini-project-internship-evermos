@@ -19,3 +19,12 @@ func (r *ProvinsiRepo) FindById(provinsiId string) (entity.Provinsi, error) {
 	}
 	return provinsi, nil
 }
+
+func (r *ProvinsiRepo) FindAll() ([]entity.Provinsi, error) {
+	var provinces []entity.Provinsi
+	err := database.DB.Debug().Find(&provinces).Error
+	if err != nil {
+		return nil, err
+	}
+	return provinces, err
+}

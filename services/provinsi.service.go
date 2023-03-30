@@ -16,3 +16,7 @@ func NewProvinsiService() *ProvinsiService {
 func (s *ProvinsiService) GetById(provinsiId string) (entity.Provinsi, error) {
 	return s.repo.FindById(provinsiId)
 }
+
+func (s *ProvinsiService) GetAll() ([]entity.Provinsi, error) {
+	return s.repo.FindAll()
+}

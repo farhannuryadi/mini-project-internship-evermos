@@ -16,3 +16,7 @@ func NewKotaService() *KotaService {
 func (s *KotaService) GetById(kotaId string) (entity.Kota, error) {
 	return s.repo.FindById(kotaId)
 }
+
+func (s *KotaService) GetByProvinsiId(provinsiId string) ([]entity.Kota, error) {
+	return s.repo.FindByProvinsiId(provinsiId)
+}

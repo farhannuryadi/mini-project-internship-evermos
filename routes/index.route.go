@@ -6,7 +6,6 @@ import (
 	"mini-project-internship/controllers"
 	"mini-project-internship/middleware"
 	"mini-project-internship/utils"
-
 )
 
 func RoutesInit(r *fiber.App) {
@@ -20,10 +19,16 @@ func RoutesInit(r *fiber.App) {
 	produk := v1.Group("/product")
 	// trx := v1.Group("/trx")
 	test := v1.Group("/test")
+	provcity := v1.Group("/provcity")
 
 	test.Get("/", controllers.AmbilDataProvinsi)
 	test.Post("/", controllers.TestProdukFoto)
 	test.Post("/multiple", utils.HandleMultipleFile, controllers.TestUploadMultiple)
+
+	provcity.Get("/listprovincies", controllers.ProvinsiGetAll)
+	provcity.Get("/detailprovince/:prov_id", controllers.ProvinsiGetById)
+	provcity.Get("/listcities/:prov_id", controllers.KotaGetByProvinsiId)
+	provcity.Get("/detailcity/:city_id", controllers.KotaGetById)
 
 	produk.Post("/", utils.HandleMultipleFile, middleware.Auth, controllers.ProdukCreate)
 	produk.Get("/", middleware.Auth, controllers.ProdukGetAllPage)
