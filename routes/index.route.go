@@ -6,6 +6,7 @@ import (
 	"mini-project-internship/controllers"
 	"mini-project-internship/middleware"
 	"mini-project-internship/utils"
+
 )
 
 func RoutesInit(r *fiber.App) {
@@ -26,6 +27,9 @@ func RoutesInit(r *fiber.App) {
 
 	produk.Post("/", utils.HandleMultipleFile, middleware.Auth, controllers.ProdukCreate)
 	produk.Get("/", middleware.Auth, controllers.ProdukGetAllPage)
+	produk.Get("/:id", middleware.Auth, controllers.ProdukGetById)
+	produk.Put("/:id", utils.HandleMultipleFile, middleware.Auth, controllers.ProdukGetById)
+	produk.Delete("/:id", middleware.Auth, controllers.ProdukGetById)
 
 	auth.Post("/login", controllers.AuthLogin)
 	auth.Post("/register", controllers.AuthRegis)
@@ -33,7 +37,7 @@ func RoutesInit(r *fiber.App) {
 	user.Post("/", controllers.UserCreate)
 	user.Put("/", middleware.Auth, controllers.UserUpdate)
 	user.Delete("/:id", controllers.UserDelete)
-	user.Get("/list", middleware.AuthAdmin, controllers.UserGetAll)
+	// user.Get("/list", middleware.AuthAdmin, controllers.UserGetAll)
 	user.Get("/:id_user", controllers.UserGetById)
 	user.Get("/", middleware.Auth, controllers.UserMyProfile)
 
@@ -49,7 +53,6 @@ func RoutesInit(r *fiber.App) {
 	toko.Delete("/:id", controllers.TokoDelete)
 	toko.Get("/my", middleware.Auth, controllers.TokoGetMy)
 	toko.Get("/:id_toko", middleware.Auth, controllers.TokoGetById)
-	// toko.Get("/", controllers.TokoGetAll)
 
 	category.Post("/", middleware.AuthAdmin, controllers.CategoryCreate)
 	category.Get("/:id", middleware.AuthAdmin, controllers.CategoryGetById)

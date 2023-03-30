@@ -10,10 +10,10 @@ type Produk struct {
 	HargaKonsumen string       `json:"harga_konsumen" gorm:"size:255"`
 	Stok          string       `json:"stok" gorm:"type:int"`
 	Deskripsi     string       `json:"deskripsi" gorm:"type:text"`
-	CreatedAt     time.Time    `json:"created_at" gorm:"autoCreateTime"`
-	UpdatedAt     time.Time    `json:"updated_at" gorm:"autoUpdateTime"`
+	CreatedAt     time.Time    `json:"-" gorm:"autoCreateTime"`
+	UpdatedAt     time.Time    `json:"-" gorm:"autoUpdateTime"`
 	TokoID        uint         `json:"toko_id"`
 	CategoryID    uint         `json:"category_id"`
-	FotoProduks   []FotoProduk `json:"foto_produks"`
-	LogProduks		[]LogProduk	 `json:"log_produks"`
+	FotoProduks   []FotoProduk `json:"-"`
+	LogProduks    []LogProduk  `json:"-"`
 }

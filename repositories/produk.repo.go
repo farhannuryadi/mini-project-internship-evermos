@@ -16,6 +16,15 @@ func (r *ProdukRepo) Create(produk entity.Produk) (entity.Produk, error) {
 	return produk, nil
 }
 
+func (r *ProdukRepo) FindById(produkId string) (entity.Produk, error) {
+	var produk entity.Produk
+	err := database.DB.Debug().First(&produk, produkId).Error
+	if err != nil {
+		return produk, err
+	}
+	return produk, nil
+}
+
 func (r *ProdukRepo) Count() (int64, error) {
 	var produk entity.Produk
 	var count int64
@@ -65,4 +74,20 @@ func (r *ProdukRepo) FindAllPage(
 	}
 
 	return produks, nil
+}
+
+func (r *ProdukRepo) Update(produk entity.Produk) (entity.Produk, error) {
+	err := database.DB.Debug().Save(&produk).Error
+	if err != nil {
+		return produk, err
+	}
+	return produk, nil
+}
+
+func (r *ProdukRepo) Delete(produk entity.Produk) (bool, error) {
+	err := database.DB.Debug().Delete(&produk).Error
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }

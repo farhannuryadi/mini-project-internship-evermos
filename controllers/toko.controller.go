@@ -104,7 +104,7 @@ func TokoGetAllPage(ctx *fiber.Ctx) error {
 			"error":   err.Error(),
 		})
 	}
-	return ctx.JSON(result)
+	return helper.SuccessHelper(ctx, fiber.StatusOK, result)
 }
 
 func getPagination(ctx *fiber.Ctx) (page, perPage uint64) {

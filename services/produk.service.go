@@ -17,6 +17,10 @@ func (s *ProdukService) Create(produk entity.Produk) (entity.Produk, error) {
 	return s.repo.Create(produk)
 }
 
+func (s *ProdukService) GetById(produkId string) (entity.Produk, error) {
+	return s.repo.FindById(produkId)
+}
+
 func (s *ProdukService) GetAllByFilter(
 	namaProduk string, categoryID string, tokoID string,
 	maxHarga string, minHarga string, limit uint, page uint) (map[string]interface{}, error) {
@@ -37,4 +41,12 @@ func (s *ProdukService) GetAllByFilter(
 		"limit":      limit,
 		"data":       produks,
 	}, nil
+}
+
+func (s *ProdukService) Update(produk entity.Produk) (entity.Produk, error) {
+	return s.repo.Update(produk)
+}
+
+func (s *ProdukService) Delete(produk entity.Produk) (bool, error) {
+	return s.repo.Delete(produk)
 }
