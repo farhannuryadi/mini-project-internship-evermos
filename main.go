@@ -10,7 +10,6 @@ import (
 	"mini-project-internship/database"
 	"mini-project-internship/middleware"
 	"mini-project-internship/routes"
-	// "mini-project-internship/utils"
 )
 
 func main() {

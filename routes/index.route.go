@@ -17,13 +17,18 @@ func RoutesInit(r *fiber.App) {
 	alamat := v1.Group("/user/alamat")
 	category := v1.Group("/category")
 	produk := v1.Group("/product")
-	// trx := v1.Group("/trx")
+	trx := v1.Group("/trx")
 	test := v1.Group("/test")
 	provcity := v1.Group("/provcity")
 
 	test.Get("/", controllers.AmbilDataProvinsi)
 	test.Post("/", controllers.TestProdukFoto)
+	test.Put("/:id_toko", utils.HandleSingleFile, middleware.Auth, controllers.TestUpdate)
 	test.Post("/multiple", utils.HandleMultipleFile, controllers.TestUploadMultiple)
+
+	trx.Post("/", middleware.Auth, controllers.TrxCreate)
+	trx.Get("/:id", middleware.Auth, controllers.TrxGetById)
+	trx.Get("/", middleware.Auth, controllers.TrxGetAllPage)
 
 	provcity.Get("/listprovincies", controllers.ProvinsiGetAll)
 	provcity.Get("/detailprovince/:prov_id", controllers.ProvinsiGetById)
@@ -60,8 +65,8 @@ func RoutesInit(r *fiber.App) {
 	toko.Get("/:id_toko", middleware.Auth, controllers.TokoGetById)
 
 	category.Post("/", middleware.AuthAdmin, controllers.CategoryCreate)
-	category.Get("/:id", middleware.AuthAdmin, controllers.CategoryGetById)
+	category.Get("/:id", middleware.Auth, controllers.CategoryGetById)
 	category.Put("/:id", middleware.AuthAdmin, controllers.CategoryUpdate)
-	category.Get("/", middleware.AuthAdmin, controllers.CategoryGetAll)
+	category.Get("/", middleware.Auth, controllers.CategoryGetAll)
 	category.Delete("/:id", middleware.AuthAdmin, controllers.CategoryDelete)
 }

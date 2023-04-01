@@ -85,6 +85,8 @@ func RegisToUser(regisReq request.RegisterReq) entity.User {
 		Pekerjaan:    regisReq.Pekerjaan,
 		IdProvinsi:   &regisReq.ProvinsiId,
 		IdKota:       &regisReq.KotaId,
+		JenisKelamin: regisReq.JenisKelamin,
+		Tentang:      regisReq.Tentang,
 	}
 }
 

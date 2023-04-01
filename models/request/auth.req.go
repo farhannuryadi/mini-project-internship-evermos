@@ -14,4 +14,6 @@ type RegisterReq struct {
 	Email        string `json:"email" validate:"required,email"`
 	ProvinsiId   string `json:"id_provinsi"`
 	KotaId       string `json:"id_kota"`
+	JenisKelamin string `json:"jenis_kelamin"`
+	Tentang      string `json:"tentang"`
 }

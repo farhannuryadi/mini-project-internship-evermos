@@ -15,5 +15,5 @@ type Produk struct {
 	TokoID        uint         `json:"toko_id"`
 	CategoryID    uint         `json:"category_id"`
 	FotoProduks   []FotoProduk `json:"-"`
-	LogProduks    []LogProduk  `json:"-"`
+	LogProduk     []LogProduk  `json:"-"`
 }

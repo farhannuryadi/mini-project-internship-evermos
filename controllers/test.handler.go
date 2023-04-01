@@ -10,6 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 
 	"mini-project-internship/helper"
+	"mini-project-internship/models/entity"
 )
 
 func TestHandler(ctx *fiber.Ctx) error {
@@ -136,4 +137,23 @@ func TestProdukFoto(c *fiber.Ctx) error {
 		"deskripsi":     deskripsi,
 		"photos":        fileNames,
 	})
+}
+
+func TestUpdate(ctx *fiber.Ctx) error {
+
+	tokoId := ctx.Params("id_toko")
+	namaToko := ctx.FormValue("nama_toko")
+	fileName := ctx.Locals("fileName").(string)
+
+	toko := entity.Toko{
+		NamaToko: namaToko,
+		UrlFoto:  fileName,
+	}
+
+	log.Println("toko id : ", tokoId)
+	log.Println(toko)
+
+	// toko, err := tokoService.Update()
+
+	return helper.SuccessHelper(ctx, fiber.StatusOK, "oke")
 }

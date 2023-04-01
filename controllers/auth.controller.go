@@ -61,7 +61,7 @@ func AuthLogin(ctx *fiber.Ctx) error {
 
 	loginRes := mapper.UserToLoginRes(user, provinsi, kota, token)
 
-	return helper.SuccessHelper(ctx, fiber.StatusAccepted, loginRes)
+	return helper.SuccessHelper(ctx, fiber.StatusOK, loginRes)
 }
 
 func AuthRegis(ctx *fiber.Ctx) error {
