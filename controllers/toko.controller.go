@@ -41,11 +41,14 @@ func TokoGetById(ctx *fiber.Ctx) error {
 }
 
 func TokoUpdate(ctx *fiber.Ctx) error {
-	var tokoId = ctx.Params("id")
-	var tokoUpdate entity.Toko
+	var tokoId = ctx.Params("id_toko")
 
-	if err := ctx.BodyParser(&tokoUpdate); err != nil {
-		return helper.ErrorHelper(ctx, fiber.StatusBadRequest, err)
+	namaToko := ctx.FormValue("nama_toko")
+	fileName := ctx.Locals("fileName").(string)
+
+	tokoUpdate := entity.Toko{
+		NamaToko: namaToko,
+		UrlFoto:  fileName,
 	}
 
 	_, errUpdate := tokoService.Update(tokoId, tokoUpdate)
