@@ -22,12 +22,6 @@ func Auth(ctx *fiber.Ctx) error {
 		})
 	}
 
-	// if claims["is_admin"] == false {
-	// 	return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
-	// 		"message": "forbidden access",
-	// 	})
-	// }
-
 	ctx.Locals("userInfo", claims)
 
 	return ctx.Next()
@@ -42,8 +36,7 @@ func AuthAdmin(ctx *fiber.Ctx) error {
 		})
 	}
 	isAdmin := userInfo["is_admin"].(bool)
-	// log.Println("data user info ::", userInfo)
-	// isAdmin := bool(userInfo["is_admin"])
+
 	if !isAdmin {
 		return ctx.Status(fiber.StatusForbidden).JSON(fiber.Map{
 			"message": "forbidden access",
